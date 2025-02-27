@@ -282,10 +282,25 @@ int picolSetVar(struct picolInterp *i, char *name, char *val) {
     if (v) {
         free(v->val);
         v->val = strdup(val);
+        if (!v->val) {
+            picolSetResult(i,"Out of memory updating variable");
+            return PICOL_ERR;
+        }
     } else {
         v = malloc(sizeof(*v));
+        if (!v) {
+            picolSetResult(i,"Out of memory setting variable");
+            return PICOL_ERR;
+        }
         v->name = strdup(name);
         v->val = strdup(val);
+        if (!v->name || !v->val) {
+            if (v->name) free(v->name);
+            if (v->val) free(v->val);
+            free(v);
+            picolSetResult(i,"Out of memory setting variable");
+            return PICOL_ERR;
+        }
         v->next = i->callframe->vars;
         i->callframe->vars = v;
     }
@@ -309,8 +324,15 @@ int picolRegisterCommand(struct picolInterp *i, char *name, picolCmdFunc f, void
         picolSetResult(i,errbuf);
         return PICOL_ERR;
     }
+
     c = malloc(sizeof(*c));
-    c->name = strdup(name);
+    if (c) c->name = strdup(name);
+    if (c == NULL || c->name == NULL) {
+        if (c) free(c->name);
+        free(c);
+        picolSetResult(i,"Out of memory registering command");
+        return PICOL_ERR;
+    }
     c->func = f;
     c->privdata = privdata;
     c->next = i->commands;
@@ -418,7 +440,13 @@ int picolCommandMath(struct picolInterp *i, int argc, char **argv, void *pd) {
     if (argv[0][0] == '+') c = a+b;
     else if (argv[0][0] == '-') c = a-b;
     else if (argv[0][0] == '*') c = a*b;
-    else if (argv[0][0] == '/') c = a/b;
+    else if (argv[0][0] == '/') {
+        if (b == 0) {
+            picolSetResult(i,"Division by zero");
+            return PICOL_ERR;
+        }
+        c = a/b;
+    }
     else if (argv[0][0] == '>' && argv[0][1] == '\0') c = a > b;
     else if (argv[0][0] == '>' && argv[0][1] == '=') c = a >= b;
     else if (argv[0][0] == '<' && argv[0][1] == '\0') c = a < b;
@@ -521,16 +549,35 @@ int picolCommandCallProc(struct picolInterp *i, int argc, char **argv, void *pd)
 arityerr:
     snprintf(errbuf,1024,"Proc '%s' called with wrong arg num",argv[0]);
     picolSetResult(i,errbuf);
+    free(tofree);
     picolDropCallFrame(i); /* remove the called proc callframe */
     return PICOL_ERR;
 }
 
 int picolCommandProc(struct picolInterp *i, int argc, char **argv, void *pd) {
     char **procdata = malloc(sizeof(char*)*2);
-    if (argc != 4) return picolArityErr(i,argv[0]);
-    procdata[0] = strdup(argv[2]); /* arguments list */
-    procdata[1] = strdup(argv[3]); /* procedure body */
+    if (!procdata) {
+        picolSetResult(i,"Out of memory registering proc");
+        return PICOL_ERR;
+    }
+    procdata[0] = procdata[1] = NULL;
+
+    if (argc != 4) {
+        free(procdata);
+        return picolArityErr(i,argv[0]);
+    }
+
+    procdata[0] = strdup(argv[2]); /* Arguments list. */
+    procdata[1] = strdup(argv[3]); /* Procedure body. */
+    if (procdata[0] == NULL || procdata[1] == NULL) goto oom;
     return picolRegisterCommand(i,argv[1],picolCommandCallProc,procdata);
+
+oom:
+    free(procdata[0]); /* Safe to free NULL */
+    free(procdata[1]);
+    free(procdata);
+    picolSetResult(i,"Out of memory registering proc");
+    return PICOL_ERR;
 }
 
 int picolCommandReturn(struct picolInterp *i, int argc, char **argv, void *pd) {
@@ -573,7 +620,8 @@ int main(int argc, char **argv) {
         if (!fp) {
             perror("open"); exit(1);
         }
-        buf[fread(buf,1,1024*16,fp)] = '\0';
+        size_t bytesRead = fread(buf,1,1024*16-1,fp);
+        buf[bytesRead] = '\0';
         fclose(fp);
         if (picolEval(&interp,buf) != PICOL_OK) printf("%s\n", interp.result);
     }
