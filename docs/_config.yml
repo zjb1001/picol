@@ -12,6 +12,8 @@ relative_links:
 exclude:
   - README.md
   - .gitignore
+  - Gemfile
+  - Gemfile.lock
 
 # Plugins
 plugins:

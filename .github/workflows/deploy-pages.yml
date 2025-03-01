@@ -30,33 +30,82 @@ jobs:
         with:
           ruby-version: '3.0'
           bundler-cache: true
-
-      - name: Create Gemfile if not exists
-        run: |
-          if [ ! -f Gemfile ]; then
-            echo 'source "https://rubygems.org"' > Gemfile
-            echo 'gem "jekyll", "~> 4.2.0"' >> Gemfile
-            echo 'gem "webrick", "~> 1.7"' >> Gemfile
-            echo 'group :jekyll_plugins do' >> Gemfile
-            echo '  gem "jekyll-feed", "~> 0.15.1"' >> Gemfile
-            echo '  gem "jekyll-seo-tag", "~> 2.7.1"' >> Gemfile
-            echo 'end' >> Gemfile
-          fi
+          working-directory: docs
 
       - name: Install dependencies
         run: |
+          cd docs
           gem install bundler
           bundle install
 
+      - name: Fix style.scss if needed
+        run: |
+          if [ -f docs/assets/css/style.scss ]; then
+            cat > docs/assets/css/style.scss << 'EOL'
+---
+---
+
+@import "{{ site.theme }}";
+
+// Custom styles
+.wrapper {
+  max-width: 960px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #e8e8e8;
+}
+
+a {
+  color: #63c0f5;
+  text-shadow: 0 0 5px rgba(104, 182, 255, 0.5);
+}
+EOL
+          fi
+
+      - name: Create default layout if needed
+        run: |
+          mkdir -p docs/_layouts
+          if [ ! -f docs/_layouts/default.html ]; then
+            cat > docs/_layouts/default.html << 'EOL'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if page.title %}{{ page.title | escape }} - {% endif %}{{ site.title | escape }}</title>
+  <link rel="stylesheet" href="{{ "/assets/css/style.css" | relative_url }}">
+  {% seo %}
+</head>
+<body>
+  <div class="wrapper">
+    <header>
+      <h1><a href="{{ "/" | relative_url }}">{{ site.title | default: site.github.repository_name }}</a></h1>
+      <p>{{ site.description | default: site.github.project_tagline }}</p>
+    </header>
+    <section>
+      {{ content }}
+    </section>
+    <footer>
+      <p>{{ site.custom.footer | default: "© 2023" }}</p>
+    </footer>
+  </div>
+</body>
+</html>
+EOL
+          fi
+
       - name: Build the site
-        run: bundle exec jekyll build
+        run: |
+          cd docs
+          bundle exec jekyll build
         env:
           JEKYLL_ENV: production
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './_site'
+          path: './docs/_site'
 
       - name: Deploy to GitHub Pages
         id: deployment
