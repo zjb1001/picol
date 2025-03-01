@@ -1,23 +1,33 @@
+---
+layout: default
+title: Home
+---
+
 # Picol Documentation
 
-Welcome to the Picol documentation site! This site provides comprehensive information about the Picol interpreter, its structure, and how to use it.
+Welcome to the Picol documentation site! Picol is a tiny Tcl interpreter implemented in ~500 lines of C code.
 
 ## Overview
 
-Picol is a small Tcl-like language implementation written in approximately 500 lines of C code. This documentation aims to help users and contributors understand the project's architecture, functionality, and usage.
+Picol demonstrates how a complete interpreter can be implemented in a minimal amount of code while still providing useful functionality. This documentation covers its architecture, usage, and how to contribute to the project.
 
-## Documentation Structure
+## Features
 
-- **[Project Structure](project_structure.md)**: An overview of the Picol interpreter's structure, including UML diagrams that illustrate the core components and their relationships.
-- **Getting Started**: Instructions on how to set up and run the Picol interpreter.
-- **Core Commands**: Detailed descriptions of the core commands available in Picol.
-- **Memory Management**: Information on how memory is managed within the interpreter.
-- **Testing**: Guidelines on how to run tests and contribute to the testing framework.
+- Core Tcl-like syntax
+- Variables and procedures
+- Control structures (if, while)
+- Basic arithmetic operations
+- String handling
+- Clean, understandable implementation
 
-## Contributing
+## Documentation Sections
 
-We welcome contributions to the Picol project! Please refer to the guidelines in the README.md file for more information on how to get involved.
+- [Introduction](introduction.md) - Overview of Picol and its features
+- [Getting Started](getting-started.md) - How to build and run Picol
+- [Language Reference](reference/README.md) - Detailed syntax and command reference
+- [Architecture](architecture.md) - Technical details of the Picol implementation
+- [Testing](testing.md) - Information about the test suite and how to run tests
+- [Project Structure](project_structure.md) - UML diagrams showing code organization
+- [Contributing](contributing.md) - Guidelines for contributing to the project
 
-## License
-
-This project is licensed under the MIT License. See the LICENSE file for more details.
+## Quick Example

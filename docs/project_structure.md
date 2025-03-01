@@ -1,4 +1,8 @@
-# FILE: /picol-documentation/picol-documentation/docs/project_structure.md
+---
+layout: default
+title: Project Structure
+---
+
 # Picol Project Structure
 
 This document provides an overview of the Picol interpreter's structure using UML diagrams.
@@ -9,8 +13,52 @@ The Picol interpreter is a small Tcl-like language implementation in ~500 lines 
 
 ## Core Data Structures
 
+<div class="mermaid">
+classDiagram
+    class picolInterp {
+        +int level
+        +struct picolCallFrame* callframe
+        +struct picolCmd* commands
+        +char* result
+    }
+    
+    class picolCallFrame {
+        +struct picolVar* vars
+        +struct picolCallFrame* parent
+    }
+    
+    class picolVar {
+        +char* name
+        +char* val
+        +struct picolVar* next
+    }
+    
+    class picolCmd {
+        +char* name
+        +picolCmdFunc func
+        +void* privdata
+        +struct picolCmd* next
+    }
+    
+    class picolParser {
+        +char* text
+        +char* p
+        +int len
+        +char* start
+        +char* end
+        +int type
+        +int insidequote
+    }
+    
+    picolInterp "1" --> "1" picolCallFrame : has
+    picolInterp "1" --> "*" picolCmd : has commands list
+    picolCallFrame "1" --> "*" picolVar : has vars list
+    picolCallFrame "1" --> "0..1" picolCallFrame : parent
+</div>
+
 ## Function Relationships
-```mermaid
+
+<div class="mermaid">
 flowchart TD
     main --> picolInitInterp
     main --> picolRegisterCoreCommands
@@ -37,12 +85,13 @@ flowchart TD
     picolCommandCallProc --> picolSetVar
     picolCommandCallProc --> picolEval
     picolCommandCallProc --> picolDropCallFrame
-```
+</div>
 
 ## Core Commands Implementation
-```mermaid
+
+<div class="mermaid">
 classDiagram
-    class CommandFunctions {
+    class CoreCommands {
         <<interface>>
         +picolCommandMath()
         +picolCommandSet()
@@ -55,13 +104,15 @@ classDiagram
         +picolCommandReturn()
     }
     
-    picolInterp --> CommandFunctions : calls
-```
+    picolInterp --> CoreCommands : calls
+</div>
 
 ## Parser Token Types
-```mermaid
+
+<div class="mermaid">
 classDiagram
     class TokenTypes {
+        <<enumeration>>
         PT_ESC
         PT_STR
         PT_CMD
@@ -71,13 +122,15 @@ classDiagram
         PT_EOF
     }
     
-    picolParser --> TokenTypes : uses
-```
+    picolParser --> TokenTypes : uses for classification
+</div>
 
 ## Return Codes
-```mermaid
+
+<div class="mermaid">
 classDiagram
     class ReturnCodes {
+        <<enumeration>>
         PICOL_OK
         PICOL_ERR
         PICOL_RETURN
@@ -86,11 +139,12 @@ classDiagram
     }
     
     picolEval --> ReturnCodes : returns
-    CommandFunctions --> ReturnCodes : returns
-```
+    CoreCommands --> ReturnCodes : returns
+</div>
 
 ## Test Suite Structure
-```mermaid
+
+<div class="mermaid">
 flowchart TD
     subgraph "Test Components"
         test_basic[test_basic.c]
@@ -128,45 +182,15 @@ flowchart TD
     makefile --> test_runner
     
     run_tests_sh --> makefile
-```
-
-## Memory Management
-```mermaid
-flowchart TD
-    subgraph "Memory Allocation"
-        malloc
-        strdup
-        realloc
-    end
-    
-    subgraph "Memory Deallocation"
-        free
-        picolDropCallFrame
-    end
-    
-    picolInterp --> malloc
-    picolInterp --> strdup
-    picolInterp --> free
-    
-    picolSetVar --> malloc
-    picolSetVar --> strdup
-    picolSetVar --> free
-    
-    picolRegisterCommand --> malloc
-    picolRegisterCommand --> strdup
-    
-    picolEval --> malloc
-    picolEval --> realloc
-    picolEval --> free
-    
-    picolDropCallFrame --> free
-```
+</div>
 
 ## Project File Structure
-```mermaid
+
+<div class="mermaid">
 flowchart TD
     subgraph "Project Root"
         picol_c[picol.c]
+        project_structure[project_structure.md]
     end
     
     subgraph "Tests Directory"
@@ -195,32 +219,24 @@ flowchart TD
         test_build --> test_edge_bin[test_edge_standalone]
         test_build --> test_performance_bin[test_performance_standalone]
     end
-```
+</div>
+
 ## Function Summary
 
 | Function | Purpose |
 |----------|---------|
-| picolInitParser | Initialize the parser with a string to parse |
-| picolGetToken | Get the next token from the input |
-| picolParseSep, picolParseEol, etc. | Parse specific token types |
-| picolInitInterp | Initialize the interpreter structure |
-| picolSetResult | Set the result string of the interpreter |
-| picolGetVar | Get a variable value by name |
-| picolSetVar | Set a variable to a value |
-| picolGetCommand | Get a command by name |
-| picolRegisterCommand | Register a new command |
-| picolEval | Evaluate a Tcl script |
-| picolCommandMath, etc. | Core command implementations |
+| `picolInitParser` | Initialize the parser with a string to parse |
+| `picolGetToken` | Get the next token from the input |
+| `picolParseSep`, `picolParseEol`, etc. | Parse specific token types |
+| `picolInitInterp` | Initialize the interpreter structure |
+| `picolSetResult` | Set the result string of the interpreter |
+| `picolGetVar` | Get a variable value by name |
+| `picolSetVar` | Set a variable to a value |
+| `picolGetCommand` | Get a command by name |
+| `picolRegisterCommand` | Register a new command |
+| `picolEval` | Evaluate a Tcl script |
+| `picolCommandMath`, etc. | Core command implementations |
+| `picolDropCallFrame` | Free a call frame and its variables |
+| `picolRegisterCoreCommands` | Register all built-in commands |
 
-This project structure document uses Mermaid diagrams to visualize different aspects of the Picol interpreter:
-
-1. Core data structures and their relationships
-2. Function call relationships
-3. Command implementation structure
-4. Parser token types
-5. Return code enumeration
-6. Test suite organization
-7. Memory management flow
-8. Project file structure
-
-The diagrams provide a clear overview of how the interpreter is structured, which is helpful for understanding the code organization and for onboarding new contributors to the project.
+The diagrams above provide a clear overview of how the interpreter is structured, which is helpful for understanding the code organization and for onboarding new contributors to the project.

@@ -1,0 +1,50 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+// Custom styles
+.wrapper {
+  max-width: 960px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #e8e8e8;
+}
+
+a {
+  color: #63c0f5;
+  text-shadow: 0 0 5px rgba(104, 182, 255, 0.5);
+}
+
+pre {
+  background: #1c1c1c;
+  border: 1px solid #3c3c3c;
+  padding: 10px;
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+  margin-bottom: 20px;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 8px;
+  border: 1px solid #3c3c3c;
+}
+
+th {
+  background-color: #252525;
+  color: #e8e8e8;
+}
+
+// Mermaid diagram support
+.mermaid {
+  background-color: white;
+  border-radius: 5px;
+  padding: 15px;
+  margin: 15px 0;
+  color: black;
+}

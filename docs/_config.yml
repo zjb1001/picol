@@ -1,10 +1,12 @@
 title: Picol Documentation
-description: Documentation for the Picol interpreter, a small Tcl-like language implementation.
-theme: minima
+description: Documentation for Picol - a tiny Tcl interpreter
+remote_theme: pages-themes/midnight@v0.2.0
 
-# Build settings
-markdown: kramdown
-permalink: pretty
+# Enable GitHub Pages features
+markdown: GFM
+relative_links:
+  enabled: true
+  collections: true
 
 # Exclude certain files from the build
 exclude:
@@ -13,8 +15,25 @@ exclude:
 
 # Plugins
 plugins:
+  - jekyll-remote-theme
+  - jekyll-relative-links
   - jekyll-feed
   - jekyll-sitemap
+
+# Navigation
+header_pages:
+  - introduction.md
+  - getting-started.md
+  - reference/README.md
+  - architecture.md
+  - testing.md
+  - contributing.md
+
+# Include all files
+include:
+  - "*.md"
+  - "**/*.md"
+  - "assets/"
 
 # Navigation settings
 nav:

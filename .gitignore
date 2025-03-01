@@ -1,0 +1,26 @@
+# Build artifacts
+build/
+*.o
+*.a
+*.so
+picol
+
+# Test artifacts
+tests/test_*_standalone
+tests/test_runner
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*~
+
+# Documentation build artifacts
+docs/_site/
+docs/.jekyll-cache/
+docs/.sass-cache/
+docs/Gemfile.lock
+
+# OS specific files
+.DS_Store
+Thumbs.db
