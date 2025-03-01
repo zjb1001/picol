@@ -31,6 +31,18 @@ jobs:
           ruby-version: '3.0'
           bundler-cache: true
 
+      - name: Create Gemfile if not exists
+        run: |
+          if [ ! -f Gemfile ]; then
+            echo 'source "https://rubygems.org"' > Gemfile
+            echo 'gem "jekyll", "~> 4.2.0"' >> Gemfile
+            echo 'gem "webrick", "~> 1.7"' >> Gemfile
+            echo 'group :jekyll_plugins do' >> Gemfile
+            echo '  gem "jekyll-feed", "~> 0.15.1"' >> Gemfile
+            echo '  gem "jekyll-seo-tag", "~> 2.7.1"' >> Gemfile
+            echo 'end' >> Gemfile
+          fi
+
       - name: Install dependencies
         run: |
           gem install bundler
