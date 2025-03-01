@@ -1,0 +1,27 @@
+title: Picol Documentation
+description: Documentation for the Picol interpreter, a small Tcl-like language implementation.
+theme: minima
+
+# Build settings
+markdown: kramdown
+permalink: pretty
+
+# Exclude certain files from the build
+exclude:
+  - README.md
+  - .gitignore
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+
+# Navigation settings
+nav:
+  - Home: index.md
+  - Project Structure: project_structure.md
+
+# Custom settings
+custom:
+  logo: /assets/images/logo.png
+  footer: "© 2023 Picol Project"
