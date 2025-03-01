@@ -22,13 +22,13 @@ Picol demonstrates how a complete interpreter can be implemented in a minimal am
 
 ## Documentation Sections
 
-- [Introduction]({% link introduction.md %})
-- [Getting Started]({% link getting-started.md %})
-- [Language Reference]({% link reference/README.md %})
-- [Architecture]({% link architecture.md %})
-- [Testing]({% link testing.md %})
-- [Project Structure]({% link project_structure.md %})
-- [Contributing]({% link contributing.md %})
+- [Introduction](introduction.html)
+- [Getting Started](getting-started.html)
+- [Language Reference](reference/README.html)
+- [Architecture](architecture.html)
+- [Testing](testing.html)
+- [Project Structure](project_structure.html)
+- [Contributing](contributing.html)
 
 ## Quick Example
 
