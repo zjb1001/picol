@@ -5,7 +5,10 @@ baseurl: ""
 repository: "page/picol" # Add repository information
 
 # Enable GitHub Pages features
-markdown: GFM
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
 relative_links:
   enabled: true
   collections: true
