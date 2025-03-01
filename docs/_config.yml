@@ -2,6 +2,7 @@ title: Picol Project
 description: Documentation for the Picol project
 remote_theme: pages-themes/midnight@v0.2.0
 baseurl: ""
+repository: "page/picol" # Add repository information
 
 # Enable GitHub Pages features
 markdown: GFM
