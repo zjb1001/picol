@@ -1,7 +1,6 @@
 title: Picol Project
 description: Documentation for the Picol project
 remote_theme: pages-themes/midnight@v0.2.0
-theme: jekyll-theme-hacker
 baseurl: ""
 
 # Enable GitHub Pages features
