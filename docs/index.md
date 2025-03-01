@@ -22,12 +22,23 @@ Picol demonstrates how a complete interpreter can be implemented in a minimal am
 
 ## Documentation Sections
 
-- [Introduction](introduction.md) - Overview of Picol and its features
-- [Getting Started](getting-started.md) - How to build and run Picol
-- [Language Reference](reference/README.md) - Detailed syntax and command reference
-- [Architecture](architecture.md) - Technical details of the Picol implementation
-- [Testing](testing.md) - Information about the test suite and how to run tests
-- [Project Structure](project_structure.md) - UML diagrams showing code organization
-- [Contributing](contributing.md) - Guidelines for contributing to the project
+- [Introduction]({% link introduction.md %})
+- [Getting Started]({% link getting-started.md %})
+- [Language Reference]({% link reference/README.md %})
+- [Architecture]({% link architecture.md %})
+- [Testing]({% link testing.md %})
+- [Project Structure]({% link project_structure.md %})
+- [Contributing]({% link contributing.md %})
 
 ## Quick Example
+
+```tcl
+proc fib {x} {
+    if {$x < 2} {
+        return $x
+    } else {
+        return [expr [fib [expr $x-1]] + [fib [expr $x-2]]]
+    }
+}
+
+puts "Fibonacci of 10 is: [fib 10]"
