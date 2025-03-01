@@ -1,6 +1,8 @@
-title: Picol Documentation
-description: Documentation for Picol - a tiny Tcl interpreter
+title: Picol Project
+description: Documentation for the Picol project
 remote_theme: pages-themes/midnight@v0.2.0
+theme: jekyll-theme-hacker
+baseurl: ""
 
 # Enable GitHub Pages features
 markdown: GFM
@@ -21,6 +23,8 @@ plugins:
   - jekyll-relative-links
   - jekyll-feed
   - jekyll-sitemap
+  - jekyll-seo-tag
+  - jekyll-github-metadata
 
 # Navigation
 header_pages:
@@ -46,3 +50,6 @@ nav:
 custom:
   logo: /assets/images/logo.png
   footer: "© 2023 Picol Project"
+
+github:
+  is_project_page: true
