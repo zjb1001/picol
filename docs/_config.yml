@@ -2,6 +2,7 @@ title: Picol Project
 description: Documentation for the Picol project
 remote_theme: pages-themes/midnight@v0.2.0
 baseurl: ""
+url: "https://page.github.io" # Replace with your actual GitHub Pages URL
 repository: "page/picol" # Add repository information
 
 # Enable GitHub Pages features
@@ -12,6 +13,7 @@ kramdown:
 relative_links:
   enabled: true
   collections: true
+  permalink: /:path/:basename:output_ext
 
 # Exclude certain files from the build
 exclude:
@@ -46,8 +48,14 @@ include:
 
 # Navigation settings
 nav:
-  - Home: index.md
-  - Project Structure: project_structure.md
+  - Home: index.html
+  - Introduction: introduction.html
+  - Getting Started: getting-started.html
+  - Language Reference: reference/
+  - Architecture: architecture.html
+  - Testing: testing.html
+  - Project Structure: project_structure.html
+  - Contributing: contributing.html
 
 # Custom settings
 custom:
