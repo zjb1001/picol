@@ -22,13 +22,13 @@ Picol demonstrates how a complete interpreter can be implemented in a minimal am
 
 ## Documentation Sections
 
-- [Introduction](introduction.md) - Overview of Picol and its features
-- [Getting Started](getting-started.md) - How to build and run Picol
-- [Language Reference](reference/README.md) - Detailed syntax and command reference
-- [Architecture](architecture.md) - Technical details of the Picol implementation
-- [Testing](testing.md) - Information about the test suite and how to run tests
-- [Project Structure](project_structure.md) - UML diagrams showing code organization
-- [Contributing](contributing.md) - Guidelines for contributing to the project
+- [Introduction]({{ site.baseurl }}/introduction.html) - Overview of Picol and its features
+- [Getting Started]({{ site.baseurl }}/getting-started.html) - How to build and run Picol
+- [Language Reference]({{ site.baseurl }}/reference/) - Detailed syntax and command reference
+- [Architecture]({{ site.baseurl }}/architecture.html) - Technical details of the Picol implementation
+- [Testing]({{ site.baseurl }}/testing.html) - Information about the test suite and how to run tests
+- [Project Structure]({{ site.baseurl }}/project_structure.html) - UML diagrams showing code organization
+- [Contributing]({{ site.baseurl }}/contributing.html) - Guidelines for contributing to the project
 
 ## Quick Example
 
