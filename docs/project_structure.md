@@ -7,13 +7,31 @@ title: Project Structure
 
 This document provides an overview of the Picol interpreter's structure using UML diagrams.
 
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'dark',
+      securityLevel: 'loose',
+      fontFamily: 'monospace',
+      fontSize: 14
+    });
+    
+    // Initialize Mermaid diagrams
+    setTimeout(function() {
+      mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+    }, 500);
+  });
+</script>
+
 ## Picol Code Structure Overview
 
 The Picol interpreter is a small Tcl-like language implementation in ~500 lines of C code. Here's an overview of its main components and their relationships based on analysis of the source code.
 
 ## Core Data Structures
 
-<div class="mermaid">
+```mermaid
 classDiagram
     class picolInterp {
         +int level
@@ -54,42 +72,42 @@ classDiagram
     picolInterp "1" --> "*" picolCmd : has commands list
     picolCallFrame "1" --> "*" picolVar : has vars list
     picolCallFrame "1" --> "0..1" picolCallFrame : parent
-</div>
+```
 
 ## Function Relationships
 
-<div class="mermaid">
+```mermaid
 flowchart TD
-    main --> picolInitInterp
-    main --> picolRegisterCoreCommands
-    main --> picolEval
+    main[Main] --> picolInitInterp[Initialize Interpreter]
+    main --> picolRegisterCoreCommands[Register Commands]
+    main --> picolEval[Evaluate Code]
     
-    picolEval --> picolInitParser
-    picolEval --> picolGetToken
-    picolEval --> picolGetCommand
+    picolEval --> picolInitParser[Initialize Parser]
+    picolEval --> picolGetToken[Get Token]
+    picolEval --> picolGetCommand[Get Command]
     
-    picolGetToken --> picolParseSep
-    picolGetToken --> picolParseEol
-    picolGetToken --> picolParseCommand
-    picolGetToken --> picolParseVar
-    picolGetToken --> picolParseBrace
-    picolGetToken --> picolParseString
-    picolGetToken --> picolParseComment
+    picolGetToken --> picolParseSep[Parse Separator]
+    picolGetToken --> picolParseEol[Parse End of Line]
+    picolGetToken --> picolParseCommand[Parse Command]
+    picolGetToken --> picolParseVar[Parse Variable]
+    picolGetToken --> picolParseBrace[Parse Brace]
+    picolGetToken --> picolParseString[Parse String]
+    picolGetToken --> picolParseComment[Parse Comment]
     
-    picolInitInterp --> malloc
+    picolInitInterp --> malloc[Memory Allocation]
     
-    picolRegisterCoreCommands --> picolRegisterCommand
+    picolRegisterCoreCommands --> picolRegisterCommand[Register Command]
     picolRegisterCommand --> picolGetCommand
     picolRegisterCommand --> malloc
     
-    picolCommandCallProc --> picolSetVar
+    picolCommandCallProc[Call Procedure] --> picolSetVar[Set Variable]
     picolCommandCallProc --> picolEval
-    picolCommandCallProc --> picolDropCallFrame
-</div>
+    picolCommandCallProc --> picolDropCallFrame[Drop Call Frame]
+```
 
 ## Core Commands Implementation
 
-<div class="mermaid">
+```mermaid
 classDiagram
     class CoreCommands {
         <<interface>>
@@ -105,11 +123,11 @@ classDiagram
     }
     
     picolInterp --> CoreCommands : calls
-</div>
+```
 
 ## Parser Token Types
 
-<div class="mermaid">
+```mermaid
 classDiagram
     class TokenTypes {
         <<enumeration>>
@@ -123,11 +141,11 @@ classDiagram
     }
     
     picolParser --> TokenTypes : uses for classification
-</div>
+```
 
 ## Return Codes
 
-<div class="mermaid">
+```mermaid
 classDiagram
     class ReturnCodes {
         <<enumeration>>
@@ -140,11 +158,11 @@ classDiagram
     
     picolEval --> ReturnCodes : returns
     CoreCommands --> ReturnCodes : returns
-</div>
+```
 
 ## Test Suite Structure
 
-<div class="mermaid">
+```mermaid
 flowchart TD
     subgraph "Test Components"
         test_basic[test_basic.c]
@@ -182,11 +200,11 @@ flowchart TD
     makefile --> test_runner
     
     run_tests_sh --> makefile
-</div>
+```
 
 ## Project File Structure
 
-<div class="mermaid">
+```mermaid
 flowchart TD
     subgraph "Project Root"
         picol_c[picol.c]
@@ -219,7 +237,7 @@ flowchart TD
         test_build --> test_edge_bin[test_edge_standalone]
         test_build --> test_performance_bin[test_performance_standalone]
     end
-</div>
+```
 
 ## Function Summary
 
@@ -240,3 +258,24 @@ flowchart TD
 | `picolRegisterCoreCommands` | Register all built-in commands |
 
 The diagrams above provide a clear overview of how the interpreter is structured, which is helpful for understanding the code organization and for onboarding new contributors to the project.
+
+<style>
+.language-mermaid {
+  background: #1a1a1a;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 24px;
+}
+table {
+  width: 100%;
+  margin-bottom: 24px;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 8px 12px;
+  border: 1px solid #555;
+}
+th {
+  background-color: #333;
+}
+</style>
