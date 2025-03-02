@@ -22,13 +22,13 @@ Picol demonstrates how a complete interpreter can be implemented in a minimal am
 
 ## Documentation Sections
 
-- [Introduction](introduction.html)
-- [Getting Started](getting-started.html)
-- [Language Reference](reference/README.html)
-- [Architecture](architecture.html)
-- [Testing](testing.html)
-- [Project Structure](project_structure.html)
-- [Contributing](contributing.html)
+- [Introduction](introduction.md) - Overview of Picol and its features
+- [Getting Started](getting-started.md) - How to build and run Picol
+- [Language Reference](reference/README.md) - Detailed syntax and command reference
+- [Architecture](architecture.md) - Technical details of the Picol implementation
+- [Testing](testing.md) - Information about the test suite and how to run tests
+- [Project Structure](project_structure.md) - UML diagrams showing code organization
+- [Contributing](contributing.md) - Guidelines for contributing to the project
 
 ## Quick Example
 
@@ -42,3 +42,12 @@ proc fib {x} {
 }
 
 puts "Fibonacci of 10 is: [fib 10]"
+```
+
+## Home Navigation
+
+You are currently on the [Home](index.md) page. To view project structure information, please see the [Project Structure](project_structure.md) page.
+
+## Source Code
+
+The complete source code for Picol is contained in a single C file of approximately 500 lines, making it easy to understand and modify.
